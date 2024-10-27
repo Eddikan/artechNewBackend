@@ -16,6 +16,10 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],  # Allow all headers; specify if needed
 )
+# Root endpoint for testing
+@app.get("/")
+async def read_root():
+    return {"message": "Hello, World!"}
 
 # Create the database tables
 Base.metadata.create_all(bind=engine)
