@@ -24,7 +24,10 @@ class ProjectOut(ProjectCreate):
 
 @router.get("/projects", response_model=List[ProjectOut])
 def get_projects(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    print('here')
     projects = db.query(Project).offset(skip).limit(limit).all()
+    print(projects)
+    print('after')
     return projects
 
 
