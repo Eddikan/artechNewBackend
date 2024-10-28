@@ -1,9 +1,7 @@
-# app/core/config.py
-# from pydantic import BaseSettings  # For Pydantic 1.x, this is still correct
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "sqlite:///./test.db"
+    DATABASE_URL: str = "postgresql://postgres.lgrxvzsyzsnxdsvijonh:moneymistressmagiC1#@aws-0-us-east-1.pooler.supabase.com:6543/postgres"
     JWT_SECRET_KEY: str = "your_jwt_secret_key"
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
