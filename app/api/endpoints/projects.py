@@ -31,6 +31,13 @@ def get_projects(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return projects
 
 
+@router.get("/text")
+def get_text():
+    projects = db.query(Project).offset(skip).limit(limit).all()
+    print(projects)
+    return {"message": "Hello"}
+
+
 @router.get("/projects/{id}", response_model=ProjectOut)
 def get_project(id: int, db: Session = Depends(get_db)):
     project = db.query(Project).filter(Project.id == id).first()
