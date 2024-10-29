@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from app.db import get_db
 from app.models.project import Project
 from pydantic import BaseModel
+from app.models.subscriber import Subscriber
+from app.schemas.subscriber import SubscriberCreate, SubscriberOut
 from typing import List
 from fastapi.security import OAuth2PasswordBearer, HTTPBearer, HTTPBasicCredentials
 
@@ -30,6 +32,27 @@ def get_projects(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     print('after')
     return projects
 
+@router.post("/subscribe", response_model=SubscriberOut)
+def subscribe(subscriber: SubscriberCreate, db: Session = Depends(get_db)):
+    # Check if email already exists
+    print('existing')
+    
+    existing_subscriber = db.query(Subscriber).filter(Subscriber.email == subscriber.email).first()
+    print('existing')
+    print(existing_subscriber)
+    if existing_subscriber:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already exists."
+        )
+    
+    # Create new subscriber
+    new_subscriber = Subscriber(email=subscriber.email)
+    db.add(new_subscriber)
+    db.commit()
+    db.refresh(new_subscriber)
+    
+    return new_subscriber
 
 @router.get("/text")
 def get_text():

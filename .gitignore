@@ -76,6 +76,7 @@ docs/_build/
 target/
 venv/
 env/
+.env
 # Jupyter Notebook
 .ipynb_checkpoints
 
